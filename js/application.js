@@ -11,9 +11,12 @@ $(document).ready(function () {
 
   // iterate over rows to capture item totals
   $('tbody tr').each(function (i, ele) {
-    var price = parseFloat($(ele).children('.price').val());
+    var price = parseFloat($(ele).children('.price').text());
     var qty = parseFloat($(ele).find('.quantity input').val());
     var itemTotal = calculatePrice(price, qty);
+    // insert into html
+    $('.itemTotal').html(itemTotal);
+    // insert into allPrices array for cartTotal calculation
     allPrices.push(itemTotal);
   });
 
