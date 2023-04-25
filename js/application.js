@@ -40,10 +40,25 @@ $(document).ready(function () {
 
   calculateCartTotal();
 
+  // addItem functionality
+  $('#addItem').on('submit', function (event) {
+    event.preventDefault();
+    var item = $(this).children('[name=item]').val();
+    var price = $(this).children('[name=price]').val();
+    var quantity = $(this).children('[name=quantity]').val();
+
+    $('tbody').append('<tr>' +
+      '<td class="item">' + item + '</td>' +
+      '<td class="price"><input type="number" value="' + price + '" /></td>' +
+      '<td class="quantity"><input type="number" value="' + quantity + '" /><button class=btn btn-light btn-sm cancel>Cancel></button></td>' +
+      '<td class=itemTotal></td>' +
+      '</tr>');
+  });
+
   // functionality of cancel buttons
   $(document).on('click', '.btn.cancel', function (event) {
     $(this).closest('tr').remove();
     calculateCartTotal();
   });
-  
+
 });
