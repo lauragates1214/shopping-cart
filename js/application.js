@@ -1,10 +1,19 @@
 // function to calculate item total
 var calculatePrice = function (price, qty) {
   return price * qty;
-};
+}
 
-// doc ready function
-$(document).ready(function () {
+// function to calculate cart total
+var calculateCartTotal = function() {
+    
+  // debounce
+    var timeout;
+    $('tr input').on('input', function () {
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        calculatePrice();
+      }, 500);
+    });
   
   // create array to store item totals
   var allPrices = [];
@@ -24,6 +33,11 @@ $(document).ready(function () {
   var cartTotal = allPrices.reduce(sum);
   // insert into html
   $('#cartTotal').html(cartTotal);
+}
+
+// doc ready function
+$(document).ready(function () {
+  calculateCartTotal();
 
   // functionality of cancel buttons
   $('.btn.cancel').on('click', function (event) {
