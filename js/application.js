@@ -11,11 +11,13 @@ var calculateCartTotal = function() {
 
   // iterate over rows to capture item totals
   $('tbody tr').each(function (i, ele) {
-    var price = parseFloat($(ele).children('.price').text());
+    var price = parseFloat($(ele).find('.price input').val());
     var qty = parseFloat($(ele).find('.quantity input').val());
     var itemTotal = calculatePrice(price, qty);
+
     // insert into html
     $('.itemTotal').html(itemTotal);
+
     // insert into allPrices array for cartTotal calculation
     allPrices.push(itemTotal);
   });
@@ -38,6 +40,7 @@ $(document).ready(function () {
       }, 500);
     });
 
+  // run calculateCartTotal function
   calculateCartTotal();
 
   // addItem functionality
