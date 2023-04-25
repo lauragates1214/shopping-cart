@@ -53,11 +53,16 @@ $(document).ready(function () {
       '<td class="quantity"><input type="number" value="' + quantity + '" /><button class=btn btn-light btn-sm cancel>Cancel></button></td>' +
       '<td class=itemTotal></td>' +
       '</tr>');
+
+      // update cart total
+      calculateCartTotal();
   });
 
   // functionality of cancel buttons
   $(document).on('click', '.btn.cancel', function (event) {
     $(this).closest('tr').remove();
+
+    // update cart total
     calculateCartTotal();
   });
 
