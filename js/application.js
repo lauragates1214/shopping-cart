@@ -11,62 +11,91 @@ var calculateCartTotal = function() {
 
   // iterate over rows to capture item totals
   $('tbody tr').each(function (i, ele) {
-    var price = parseFloat($(ele).find('.price input').val());
-    var qty = parseFloat($(ele).find('.quantity input').val());
-    var itemTotal = calculatePrice(price, qty);
+    var price = parseFloat($(ele).find('.price').text());
+    var quantity = parseFloat($(ele).find('.quantity input').val());
+    var itemTotal = parseFloat(calculatePrice(price, quantity)).toFixed(2);
 
     // insert into html
-    $('.itemTotal').html(itemTotal);
+    $(ele).find('.itemTotal').html(itemTotal);
 
     // insert into allPrices array for cartTotal calculation
-    allPrices.push(itemTotal);
+    allPrices.push(parseFloat(itemTotal));
   });
 
-  // calculate cart total
-  var cartTotal = allPrices.reduce(sum);
+  // sum allPrices into variable cartTotal
+  var sum = function (acc, subtotal) {
+    return acc + subtotal;
+  };
+
+  var cartTotal = parseFloat(allPrices.reduce(sum, 0)).toFixed(2);
+
   // insert into html
-  $('#cartTotal').html(cartTotal);
+  $('#cartTotal').html(parseFloat(cartTotal));
 }
 
 // doc ready function
 $(document).ready(function () {
 
-    // debounce
-    var timeout;
-    $('tr input').on('input', function () {
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        calculatePrice();
-      }, 500);
+    // run calculateCartTotal function
+    calculateCartTotal();
+
+    $(document).on('keydown', 'tr input', function (event) {
+      if (!Number.isInteger($(this).children('.itemTotal').val())) {
+        console.log('hi1');
+        $(this).closest('.itemTotal').html('calculating...');
+      };
     });
 
-  // run calculateCartTotal function
-  calculateCartTotal();
+    // debounce for user input
+    var timeout;
+    $(document).on('keyup', 'tr input', function (event) {
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        calculateCartTotal();
+      }, 500);
+    });
 
   // addItem functionality
   $('#addItem').on('submit', function (event) {
     event.preventDefault();
-    var item = $(this).children('[name=item]').val();
-    var price = $(this).children('[name=price]').val();
-    var quantity = $(this).children('[name=quantity]').val();
+    var newItem = $(this).children('[name=newItem]').val();
+
+    // ensure price has 2 decimal places
+    var newPrice = parseFloat($(this).children('[name=newPrice]').val()).toFixed(2);
+
+    // if quantity not entered assign 0
+    if ($(this).children('[name=newQuantity]').val() == '') {
+      var newQuantity = 0;
+    } else {
+      var newQuantity = $(this).children('[name=newQuantity]').val();
+    }
+
+    var newTotal = calculatePrice(newPrice, newQuantity);
 
     $('tbody').append('<tr>' +
-      '<td class="item">' + item + '</td>' +
-      '<td class="price"><input type="number" value="' + price + '" /></td>' +
-      '<td class="quantity"><input type="number" value="' + quantity + '" /><button class=btn btn-light btn-sm cancel>Cancel></button></td>' +
-      '<td class=itemTotal></td>' +
+      '<td class="item">' + newItem + '</td>' +
+      '<td>$<span class="price">' + newPrice + '</span></td>' +
+      '<td class="quantity"><input type="number" value="' + newQuantity + '" />' +
+        '<button class="btn btn-light btn-sm cancel">Cancel</button>' +
+      '</td>' +
+      '<td><span class="dollarSign">$</span><span class="itemTotal">' + newTotal + '</span></td>' + 
       '</tr>');
-
-      // update cart total
+      
+      // update cart total 
       calculateCartTotal();
+
+      // clear form values
+      $(this).children('[name=newItem]').val('');
+      $(this).children('[name=newPrice]').val('');
+      $(this).children('[name=newQuantity]').val('');
   });
 
-  // functionality of cancel buttons
+  // functionality of cancel buttons 
   $(document).on('click', '.btn.cancel', function (event) {
+    // remove row
     $(this).closest('tr').remove();
 
     // update cart total
     calculateCartTotal();
   });
-
 });

@@ -1,0 +1,22 @@
+h1, h2 {
+  padding-left: 8px;
+}
+
+form {
+  padding-left: 8px;
+}
+
+#newPrice, #newQuantity {
+  width: 80px;
+}
+
+#total {
+  margin-top: -15px;
+  color: rgb(21,71,22);
+  font-weight: bold;
+}
+
+.itemTotal, .dollarSign {
+  color: green;
+  font-weight: bold;
+}
