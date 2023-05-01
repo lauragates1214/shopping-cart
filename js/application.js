@@ -12,7 +12,7 @@ var calculateCartTotal = function() {
   // iterate over rows to capture item totals
   $('tbody tr').each(function (i, ele) {
     var price = parseFloat($(ele).find('.price').text());
-    var quantity = parseFloat($(ele).find('.quantity input').val());
+    var quantity = parseFloat($(ele).find('.quantity input').val() || 0);
     var itemTotal = parseFloat(calculatePrice(price, quantity)).toFixed(2);
 
     // insert into html
@@ -38,13 +38,6 @@ $(document).ready(function () {
 
     // run calculateCartTotal function
     calculateCartTotal();
-
-    $(document).on('keydown', 'tr input', function (event) {
-      if (!Number.isInteger($(this).children('.itemTotal').val())) {
-        console.log('hi1');
-        $(this).closest('.itemTotal').html('calculating...');
-      };
-    });
 
     // debounce for user input
     var timeout;

@@ -20,3 +20,8 @@ form {
   color: green;
   font-weight: bold;
 }
+
+img {
+  width: 20%;
+  margin-top: -30px;
+}

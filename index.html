@@ -20,7 +20,9 @@
   <body>
     <div class="container">
       <div class="row">
-        <h1>Shopping Cart</h1>
+        <div>
+          <h1>Shopping Cart</h1>  
+        </div>
       </div>
       <div class="row">
         <div class="col-12">
@@ -45,7 +47,7 @@
               <tr>
                 <td class="item">Tuna</td>
                 <td>$<span class="price">50.00</span></td>
-                <td class="quantity"><input type="number" value="3" />
+                <td class="quantity"><input type="number" value="3" required />
                   <button class="btn btn-light btn-sm cancel">Cancel</button>
                 </td>
                 <td><span class="dollarSign">$</span><span class="itemTotal"></span></td>
@@ -87,6 +89,9 @@
       <div class="row">
         <h2>Total Price:</h2>
         <div id="total"><h1>$<span id="cartTotal"></span></h1></div>
+        <div>
+          <img src="images/shopping_cart.png"></img>
+        </div>
       </div>
     </div>
   </body>
